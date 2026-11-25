@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WoW 永恆版 團本報名系統</title>
+<style>
+:root{--bg:#f4f5f7;--card:#fff;--tx:#1f2430;--mu:#6b7280;--bd:#e2e5ea;--pri:#1f3864}
+@media(prefers-color-scheme:dark){:root{--bg:#14161b;--card:#1e222a;--tx:#e8eaee;--mu:#9aa1ad;--bd:#303541;--pri:#5b86d6}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 "Microsoft JhengHei","PingFang TC",sans-serif}
+header{background:#1f3864;color:#fff;padding:18px 16px;text-align:center}
+header h1{margin:0;font-size:20px}header p{margin:4px 0 0;font-size:13px;opacity:.85}
+main{max-width:980px;margin:0 auto;padding:14px}
+nav{display:flex;gap:8px;margin-bottom:14px}
+nav button{flex:1;padding:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:8px;cursor:pointer;font:inherit}
+nav button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:14px}
+.card h2{margin:0 0 12px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+label{display:block;font-size:13px;color:var(--mu);margin-bottom:4px}
+input,select,textarea{width:100%;padding:9px;border:1px solid var(--bd);border-radius:6px;background:var(--bg);color:var(--tx);font:inherit}
+button.go{margin-top:14px;width:100%;padding:12px;border:0;border-radius:8px;background:var(--pri);color:#fff;font:inherit;font-weight:700;cursor:pointer}
+button.go:disabled{opacity:.5}
+.msg{margin-top:10px;padding:9px;border-radius:6px;display:none}
+.msg.ok{display:block;background:#d9ead3;color:#274e13}.msg.er{display:block;background:#f4cccc;color:#990000}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.kpi{background:var(--bg);border-radius:8px;padding:10px;text-align:center}
+.kpi b{display:block;font-size:24px}.kpi span{font-size:12px;color:var(--mu)}
+.bar{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:14px}
+.bar .n{width:76px;flex:none}.bar .t{flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden}
+.bar .t i{display:block;height:100%;border-radius:4px}.bar .v{width:92px;flex:none;text-align:right;font-size:13px;color:var(--mu)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:7px 6px;border-bottom:1px solid var(--bd);text-align:center;white-space:nowrap}
+th{color:var(--mu);font-weight:600}.sc{overflow-x:auto}
+.tag{display:inline-block;padding:1px 8px;border-radius:10px;font-weight:700;font-size:12px}
+.note{font-size:12px;color:var(--mu)}
+</style>
+</head>
+<body>
+<header><h1>⚔️ 我思故我在 你思湖水怪｜團本報名系統</h1><p>報名資料儲存於 Google 試算表，依開團日期統計出場人員配置</p></header>
+<main>
+<nav><button id="b1" class="on" onclick="tab(1)">📝 報名</button><button id="b2" onclick="tab(2)">📊 配置分析</button><button id="b3" onclick="tab(3)">📋 報名紀錄</button></nav>
+
+<section id="p1">
+<div class="card"><h2>填寫報名</h2>
+<div class="grid">
+<div><label>開團日期</label><input type="date" id="date"></div>
+<div><label>副本</label><select id="raid"></select></div>
+<div><label>角色名稱（ID）</label><input id="name" maxlength="20" placeholder="請輸入遊戲角色名稱"></div>
+<div><label>職業</label><select id="cls"></select></div>
+<div><label>主天賦</label><select id="t1"></select></div>
+<div><label>副天賦</label><select id="t2"></select></div>
+<div><label>團隊定位</label><select id="role"></select></div>
+<div><label>出席狀態</label><select id="att"></select></div>
+<div><label>藥水 / Buff 準備</label><select id="buff"></select></div>
+</div>
+<div style="margin-top:12px"><label>備註（抗性或特殊需求）</label><input id="note" maxlength="100"></div>
+<button class="go" id="send" onclick="submitForm()">送出報名</button>
+<div class="msg" id="msg"></div>
+<p class="note">同一開團日期、同一副本、同一角色名稱再次送出，會更新原本的報名資料。</p>
+</div></section>
+
+<section id="p2" hidden>
+<div class="card"><div class="grid">
+<div><label>開團日期</label><select id="fd" onchange="render()"></select></div>
+<div><label>副本</label><select id="fr" onchange="render()"></select></div>
+<div><label>計入人員</label><select id="fa" onchange="render()">
+<option value="c">確定出席</option><option value="cp" selected>確定出席＋待確認</option><option value="all">全部報名（含候補、請假）</option></select></div>
+</div></div>
+<div class="card"><h2>報名概況</h2><div class="kpis" id="kpi"></div></div>
+<div class="card"><h2>定位占比</h2><div id="roles"></div></div>
+<div class="card"><h2>職業占比</h2><div id="classes"></div></div>
+<div class="card"><h2>各開團日期統計（依所選副本、計入人員）</h2><div class="sc"><table id="bydate"></table></div></div>
+</section>
+
+<section id="p3" hidden>
+<div class="card"><h2>報名紀錄（依報名時間，新到舊）</h2><div class="sc"><table id="log"></table></div></div>
+</section>
+</main>
+
+<script>
+// ★ 部署 Apps Script 後，把網頁應用程式網址貼在這裡（留空＝示範模式，資料只存在本機瀏覽器）
+const API_URL = "https://script.google.com/macros/s/AKfycbwVxTr4QHZasYc7tAcwnoNRQ0Pyq0sV8JF8rQfRKKzodzS190OlbQaTWgcU-_QDxWc94g/exec";
+
+const TAL={'戰士':[['武器','近戰輸出'],['狂怒','近戰輸出'],['防護','坦克']],'聖騎士':[['神聖','治療'],['防護','坦克'],['懲戒','近戰輸出']],
+'獵人':[['野獸控制','遠程輸出'],['射擊','遠程輸出'],['生存','遠程輸出']],'盜賊':[['刺殺','近戰輸出'],['戰鬥','近戰輸出'],['敏銳','近戰輸出']],
+'牧師':[['戒律','治療'],['神聖','治療'],['暗影','遠程輸出']],'薩滿':[['元素','遠程輸出'],['增強','近戰輸出'],['恢復','治療']],
+'法師':[['秘法','遠程輸出'],['火焰','遠程輸出'],['冰霜','遠程輸出']],'術士':[['痛苦','遠程輸出'],['惡魔學識','遠程輸出'],['毀滅','遠程輸出']],
+'德魯伊':[['平衡','遠程輸出'],['野性-熊','坦克'],['野性-貓','近戰輸出'],['恢復','治療']]};
+const COL={'戰士':['#C79C6E','#000'],'聖騎士':['#F58CBA','#000'],'獵人':['#ABD473','#000'],'盜賊':['#FFF569','#000'],'牧師':['#E6E6E6','#000'],
+'薩滿':['#0070DE','#fff'],'法師':['#69CCF0','#000'],'術士':['#9482C9','#000'],'德魯伊':['#FF7D0A','#000']};
+const ROLES=['坦克','治療','近戰輸出','遠程輸出'],ROLEC={'坦克':'#6a8fd8','治療':'#6fbf73','近戰輸出':'#e0a43c','遠程輸出':'#b07ad8'};
+const ATT=['確定出席','待確認','候補支援','請假'],BUFF=['全滿(藥水+世界Buff)','自備基本藥水','未準備'];
+const RAIDS={'奧尼克希亞_40人':40,'海加爾山_20人':20,'地深獸穴_10人':10};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const opts=(el,a)=>el.innerHTML=a.map(x=>`<option>${esc(x)}</option>`).join('');
+let DATA=[];
+
+function init(){
+  opts($('raid'),Object.keys(RAIDS));opts($('cls'),Object.keys(TAL));opts($('role'),ROLES);opts($('att'),ATT);opts($('buff'),BUFF);
+  const d=new Date();$('date').value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  $('cls').onchange=()=>{fillT1();$('t1').onchange()};
+  $('t1').onchange=()=>{fillT2();autoRole()};
+  $('t2').onchange=()=>{};
+  fillT1();$('t1').onchange();load();
+}
+function fillT1(){opts($('t1'),TAL[$('cls').value].map(t=>t[0]))}
+function fillT2(){const t1=$('t1').value,l=TAL[$('cls').value].map(t=>t[0]).filter(t=>t!==t1);opts($('t2'),l)}
+function autoRole(){const m=TAL[$('cls').value].find(t=>t[0]===$('t1').value);if(m)$('role').value=m[1]}
+function tab(n){[1,2,3].forEach(i=>{$('p'+i).hidden=i!==n;$('b'+i).className=i===n?'on':''});if(n>1)render()}
+
+async function load(){
+  try{
+    if(API_URL){const r=await fetch(API_URL);const j=await r.json();DATA=j.rows||[]}
+    else DATA=JSON.parse(localStorage.getItem('wow_demo')||'[]');
+  }catch(e){DATA=[]}
+  buildFilters();render();
+}
+async function submitForm(){
+  const m=$('msg');m.className='msg';
+  const d={date:$('date').value,raid:$('raid').value,name:$('name').value.trim(),cls:$('cls').value,t1:$('t1').value,t2:$('t2').value,
+    role:$('role').value,att:$('att').value,buff:$('buff').value,note:$('note').value.trim()};
+  if(!d.name||!d.date){m.className='msg er';m.textContent='請填寫開團日期與角色名稱';return}
+  $('send').disabled=true;
+  try{
+    if(API_URL){
+      const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
+      const j=await r.json();if(!j.ok)throw new Error(j.error);
+      m.textContent=j.updated?'✅ 已更新你的報名資料':'✅ 報名成功！';
+    }else{
+      const ts=new Date().toLocaleString('sv-SE');const row={ts,...d};
+      const i=DATA.findIndex(x=>x.date===d.date&&x.raid===d.raid&&x.name===d.name);
+      i>=0?DATA[i]=row:DATA.push(row);localStorage.setItem('wow_demo',JSON.stringify(DATA));
+      m.textContent='✅ 已儲存（示範模式：資料只在此瀏覽器）';
+    }
+    m.className='msg ok';await load();
+  }catch(e){m.className='msg er';m.textContent='送出失敗：'+e.message}
+  $('send').disabled=false;
+}
+
+function buildFilters(){
+  const dates=[...new Set(DATA.map(x=>x.date))].sort().reverse();
+  const keepD=$('fd').value,keepR=$('fr').value;
+  opts($('fd'),['全部日期',...dates]);opts($('fr'),['全部副本',...Object.keys(RAIDS)]);
+  if(dates.includes(keepD)||keepD==='全部日期')$('fd').value=keepD;else if(dates.length)$('fd').value=dates[0];
+  if(keepR)$('fr').value=keepR;
+}
+const inScope=(x,m)=>m==='all'||(m==='c'?x.att==='確定出席':['確定出席','待確認'].includes(x.att));
+function bars(el,items,total,colorOf){
+  el.innerHTML=items.map(([k,n])=>{const p=total?Math.round(n*1000/total)/10:0;const c=colorOf(k);
+    return `<div class="bar"><span class="n">${esc(k)}</span><span class="t"><i style="width:${p}%;background:${c}"></i></span><span class="v">${n} 人（${p}%）</span></div>`}).join('')||'<p class="note">尚無資料</p>';
+}
+function render(){
+  const fd=$('fd').value,fr=$('fr').value,fa=$('fa').value;
+  const base=DATA.filter(x=>(fd==='全部日期'||x.date===fd)&&(fr==='全部副本'||x.raid===fr));
+  const rows=base.filter(x=>inScope(x,fa));
+  const size=fr==='全部副本'?null:RAIDS[fr];
+  $('kpi').innerHTML=[['報名總數',base.length],['計入人數',rows.length],['確定出席',base.filter(x=>x.att==='確定出席').length],
+    ['候補／請假',base.filter(x=>x.att==='候補支援'||x.att==='請假').length],['團隊進度',size?`${rows.length}/${size}`:'—']]
+    .map(k=>`<div class="kpi"><b>${k[1]}</b><span>${k[0]}</span></div>`).join('');
+  const cnt=(arr,key)=>arr.reduce((o,x)=>(o[x[key]]=(o[x[key]]||0)+1,o),{});
+  const rc=cnt(rows,'role'),cc=cnt(rows,'cls');
+  bars($('roles'),ROLES.map(r=>[r,rc[r]||0]),rows.length,k=>ROLEC[k]);
+  bars($('classes'),Object.keys(TAL).map(c=>[c,cc[c]||0]).sort((a,b)=>b[1]-a[1]),rows.length,k=>COL[k][0]);
+  const dates=[...new Set(DATA.filter(x=>fr==='全部副本'||x.raid===fr).map(x=>x.date))].sort().reverse();
+  $('bydate').innerHTML='<tr><th>開團日期</th><th>計入人數</th>'+ROLES.map(r=>`<th>${r}</th>`).join('')+'<th>占比（坦/治/近/遠）</th></tr>'+
+    dates.map(d=>{const a=DATA.filter(x=>x.date===d&&(fr==='全部副本'||x.raid===fr)&&inScope(x,fa));const c=cnt(a,'role');
+      const pc=ROLES.map(r=>a.length?Math.round((c[r]||0)*100/a.length)+'%':'—').join(' / ');
+      return `<tr><td>${esc(d)}</td><td>${a.length}</td>${ROLES.map(r=>`<td>${c[r]||0}</td>`).join('')}<td>${pc}</td></tr>`}).join('');
+  const log=[...DATA].sort((a,b)=>b.ts.localeCompare(a.ts));
+  $('log').innerHTML='<tr><th>報名時間</th><th>開團日期</th><th>副本</th><th>角色</th><th>職業</th><th>天賦</th><th>定位</th><th>出席</th><th>Buff</th><th>備註</th></tr>'+
+    log.map(x=>{const c=COL[x.cls]||['#ccc','#000'];
+      return `<tr><td>${esc(x.ts)}</td><td>${esc(x.date)}</td><td>${esc(x.raid)}</td><td>${esc(x.name)}</td><td><span class="tag" style="background:${c[0]};color:${c[1]}">${esc(x.cls)}</span></td><td>${esc(x.t1)}／${esc(x.t2)}</td><td>${esc(x.role)}</td><td>${esc(x.att)}</td><td>${esc(x.buff)}</td><td>${esc(x.note)}</td></tr>`}).join('');
+}
+init();
+</script>
+</body>
+</html>
