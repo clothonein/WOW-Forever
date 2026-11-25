@@ -10,46 +10,49 @@
  ╚══════════════════════════════════════════════════════╝
 -->
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbwVxTr4QHZasYc7tAcwnoNRQ0Pyq0sV8JF8rQfRKKzodzS190OlbQaTWgcU-_QDxWc94g/exec";   // ←← 在這裡貼上網址，例如 "https://script.google.com/macros/s/xxxx/exec"
+const API_URL = "https://script.google.com/macros/library/d/1lthVfpPiHYkjSPwmEpr3mJeoPX_6pe0i4-HNkHDpIiuvQ47qJNGsd1i7/4";   // ←← 在這裡貼上網址，例如 "https://script.google.com/macros/s/xxxx/exec"
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WoW 永恆版 團本報名系統</title>
 <style>
-:root{--bg:#f7f4ee;--card:#fffdf9;--tx:#403d38;--mu:#8a8478;--bd:#e8e1d3;--pri:#7a9cc0;--priD:#5f84aa}
-@media(prefers-color-scheme:dark){:root{--bg:#23262b;--card:#2c3036;--tx:#ece8e0;--mu:#a8a398;--bd:#40454c;--pri:#6f93b8;--priD:#5a7fa3}}
+:root{--bg:#1d2232;--card:rgba(38,43,60,.93);--tx:#ebe6d8;--mu:#a9a595;--bd:#3f4660;--pri:#5f7fa6;--priD:#4b6b90;--gold:#c9a96e;--in:#202537}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.6 "Microsoft JhengHei","PingFang TC",sans-serif}
-header{background:var(--pri);color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-header h1{margin:0;font-size:22px}header button{background:#ffffff30;color:#fff;border:1px solid #ffffff80;border-radius:8px;padding:8px 16px;cursor:pointer;font:inherit}
-main{max-width:1080px;margin:0 auto;padding:16px}
-nav{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-nav button{flex:1;min-width:100px;padding:11px;font-size:16px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:8px;cursor:pointer;font-family:inherit}
-nav button.on{background:var(--pri);color:#fff;border-color:var(--pri);font-weight:700}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-bottom:14px}
-.card h2{margin:0 0 12px;font-size:19px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+body{margin:0;color:var(--tx);font:17px/1.6 "Microsoft JhengHei","PingFang TC",sans-serif;background-color:#1b2030;background-attachment:fixed;
+background-image:radial-gradient(ellipse at 15% 0%,rgba(125,145,205,.20),transparent 55%),radial-gradient(ellipse at 90% 100%,rgba(175,125,95,.15),transparent 55%),
+url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23c9a96e' stroke-opacity='.10' stroke-width='1'%3E%3Cpath d='M60 6L114 60L60 114L6 60Z'/%3E%3Cpath d='M60 26L94 60L60 94L26 60Z'/%3E%3Ccircle cx='60' cy='60' r='9'/%3E%3Cpath d='M0 0Q30 30 0 60M120 0Q90 30 120 60M0 120Q30 90 0 60M120 120Q90 90 120 60'/%3E%3C/g%3E%3C/svg%3E"),
+linear-gradient(160deg,#1b2030,#241f33 60%,#1d2431)}
+header{background:linear-gradient(90deg,#34456a,#3d3a63 55%,#34456a);border-bottom:2px solid var(--gold);color:#f3ecd8;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+header h1{margin:0;font-size:23px;letter-spacing:2px;font-family:"Noto Serif TC","Songti TC",serif;text-shadow:0 1px 6px #0008}
+header button{background:#ffffff1c;color:#f3ecd8;border:1px solid var(--gold);border-radius:8px;padding:8px 16px;cursor:pointer;font:inherit}
+main{width:96%;max-width:1700px;margin:0 auto;padding:18px 0}
+nav{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+nav button{flex:1;min-width:110px;padding:11px;font-size:16px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:8px;cursor:pointer;font-family:inherit}
+nav button.on{background:var(--priD);color:#fff;border-color:var(--gold);font-weight:700}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:0 4px 18px #0004}
+.card h2{margin:0 0 12px;font-size:19px;color:var(--gold);font-family:"Noto Serif TC","Songti TC",serif}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
 label{display:block;font-size:15px;color:var(--mu);margin-bottom:3px}
-input,select{width:100%;padding:10px;font-size:16px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font-family:inherit}
-.btn{padding:13px;border:0;border-radius:10px;background:var(--priD);color:#fff;font:inherit;font-size:17px;font-weight:700;cursor:pointer}
-.btn.red{background:#c9776e}.btn:disabled{opacity:.5}
+input,select{width:100%;padding:10px;font-size:16px;border:1px solid var(--bd);border-radius:8px;background:var(--in);color:var(--tx);font-family:inherit}
+.btn{padding:13px;border:0;border-radius:10px;background:linear-gradient(180deg,#5a7ca3,#46678c);color:#fff;font:inherit;font-size:17px;font-weight:700;cursor:pointer;border:1px solid #c9a96e55}
+.btn.red{background:linear-gradient(180deg,#c4766d,#a95e56)}.btn:disabled{opacity:.5}
 .row2{display:flex;gap:10px;margin-top:12px}.row2 .btn{flex:1}
 .msg{margin-top:12px;padding:11px;border-radius:8px;display:none}
-.msg.ok{display:block;background:#e3f0dc;color:#3d6b34}.msg.er{display:block;background:#f8e1de;color:#a1453d}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
-.kpi{background:var(--bg);border-radius:8px;padding:8px;text-align:center}.kpi b{display:block;font-size:26px}.kpi span{font-size:14px;color:var(--mu)}
+.msg.ok{display:block;background:#2f4a38;color:#cfe9d3}.msg.er{display:block;background:#5a2f2f;color:#f3cfcb}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.kpi{background:var(--in);border-radius:8px;padding:8px;text-align:center}.kpi b{display:block;font-size:26px}.kpi span{font-size:14px;color:var(--mu)}
 .bar{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:16px}.bar .n{width:84px;flex:none}
-.bar .t{flex:1;height:22px;background:var(--bg);border-radius:4px;overflow:hidden}.bar .t i{display:block;height:100%}.bar .v{width:110px;flex:none;text-align:right;font-size:15px;color:var(--mu)}
-table{width:100%;border-collapse:collapse;font-size:15px}th,td{padding:9px 7px;border-bottom:1px solid var(--bd);text-align:center;white-space:nowrap}
-th{color:var(--mu);font-weight:600}.sc{overflow-x:auto}
+.bar .t{flex:1;height:22px;background:var(--in);border-radius:4px;overflow:hidden}.bar .t i{display:block;height:100%}.bar .v{width:110px;flex:none;text-align:right;font-size:15px;color:var(--mu)}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{padding:9px 6px;border-bottom:1px solid var(--bd);text-align:center;word-break:keep-all}
+th{color:var(--gold);font-weight:600}.sc{overflow-x:auto}
 .tag{display:inline-block;padding:2px 10px;border-radius:12px;font-weight:700;font-size:14px}
-.note{font-size:14px;color:var(--mu)}.ab{padding:4px 10px;margin:2px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:7px;cursor:pointer;font-size:14px}
-.ab.g{background:#6fa77b;color:#fff;border-color:#6fa77b}.ab.r{background:#c9776e;color:#fff;border-color:#c9776e}
-.bn{background:#fdf1d6;color:#7a5f1c;padding:11px;border-radius:8px;margin-bottom:12px;font-size:15px}
-.h-main{border-left:6px solid #8bbd96}.h-sub{border-left:6px solid #e6c07b}.h-pend{border-left:6px solid #c4bdb0}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
-.rc{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px}
-.rc h3{margin:0 0 4px;font-size:20px}.rc p{margin:3px 0}.rc .acts{display:flex;gap:8px;margin-top:12px}.rc .acts .btn{flex:1;padding:10px;font-size:16px}
-.pill{display:inline-block;padding:1px 10px;border-radius:12px;font-size:13px;background:var(--bg);margin-right:4px}
+.note{font-size:14px;color:var(--mu)}.ab{padding:4px 10px;margin:2px;border:1px solid var(--bd);background:var(--in);color:var(--tx);border-radius:7px;cursor:pointer;font-size:14px}
+.ab.g{background:#5f9a6d;color:#fff;border-color:#5f9a6d}.ab.r{background:#b96c64;color:#fff;border-color:#b96c64}
+.bn{background:#4a4023;color:#f0dca4;padding:11px;border-radius:8px;margin-bottom:12px;font-size:15px}
+.h-main{border-left:6px solid #7fb48b}.h-sub{border-left:6px solid #d9b46d}.h-pend{border-left:6px solid #8a8fa3}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.rc{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;box-shadow:0 4px 18px #0004;border-top:2px solid var(--gold)}
+.rc h3{margin:0 0 4px;font-size:21px;color:var(--gold);font-family:"Noto Serif TC","Songti TC",serif}.rc p{margin:3px 0}.rc .acts{display:flex;gap:8px;margin-top:12px}.rc .acts .btn{flex:1;padding:10px;font-size:16px}
+.pill{display:inline-block;padding:1px 10px;border-radius:12px;font-size:13px;background:var(--in);margin-right:4px}
 </style>
 </head>
 <body>
@@ -87,7 +90,7 @@ th{color:var(--mu);font-weight:600}.sc{overflow-x:auto}
 <div><label>副本名稱（可選，也可自行輸入）</label><input id="ng" list="gl" maxlength="20"><datalist id="gl"></datalist></div>
 <div><label>開團日期</label><input type="date" id="nd"></div>
 <div><label>開團時間</label><input type="time" id="nt" value="20:00"></div>
-<div><label>主力人數</label><input type="number" id="ns" min="1" max="40" value="40"></div>
+<div><label>出團人數</label><input type="number" id="ns" min="1" max="40" value="40"></div>
 <div><label>備註（例如：準時開打、需自備藥水）</label><input id="nn" maxlength="60"></div>
 </div>
 <div class="row2"><button class="btn" onclick="createRaid()">建立團</button></div>
@@ -190,18 +193,18 @@ function rosterTable(list,kind,r){
   const L=canM(r),btn=(a,id,t,c,v)=>`<button class="ab ${c||''}" data-a="${a}" data-id="${id}"${v!==undefined?` data-v="${v}"`:''}>${t}</button>`;
   const acts=x=>{if(!L)return'';let s='';
     if(kind==='main')s=btn('so',x.id,'抽換')+btn('slot',x.id,'→替補','','替補')+btn('slot',x.id,'移出','','');
-    else{s=swapOut?btn('swap',x.id,'換上主力','g'):btn('slot',x.id,'↑上主力','g','主力');
+    else{s=swapOut?btn('swap',x.id,'換上出團','g'):btn('slot',x.id,'↑加入出團','g','主力');
       s+=kind==='sub'?btn('slot',x.id,'移出','',''):btn('slot',x.id,'→替補','','替補')}
     return s+btn('del',x.id,'刪除','r')};
   return `<div class="sc"><table><tr><th>#</th><th>角色</th><th>職業</th><th>天賦</th><th>定位</th><th>出席</th><th>Buff</th><th>報名時間</th><th>備註</th>${L?'<th>團長操作</th>':''}</tr>`+
-  (list.map((x,i)=>`<tr${swapOut===x.id?' style="background:#fdf1d6;color:#403d38"':''}><td>${i+1}</td><td><b>${esc(x.name)}</b></td><td>${tag(x)}</td><td>${esc(x.t1)}／${esc(x.t2)}</td><td>${esc(x.role)}</td><td>${esc(x.att)}</td><td>${esc(x.buff)}</td><td>${esc(x.ts)}</td><td>${esc(x.note)}</td>${L?`<td>${acts(x)}</td>`:''}</tr>`).join('')||`<tr><td colspan="10" class="note">尚無人員</td></tr>`)+'</table></div>'}
+  (list.map((x,i)=>`<tr${swapOut===x.id?' style="background:#4a4023;color:#f0dca4"':''}><td>${i+1}</td><td><b>${esc(x.name)}</b></td><td>${tag(x)}</td><td>${esc(x.t1)}／${esc(x.t2)}</td><td>${esc(x.role)}</td><td>${esc(x.att)}</td><td>${esc(x.buff)}</td><td>${esc(x.ts)}</td><td>${esc(x.note)}</td>${L?`<td>${acts(x)}</td>`:''}</tr>`).join('')||`<tr><td colspan="10" class="note">尚無人員</td></tr>`)+'</table></div>'}
 
 function render(){
   if(cur===1){
     const o=openRaids();
     $('home').innerHTML=o.map(r=>{const g=byRaid(r.id),c=cnt(g,'role'),m=g.filter(x=>x.slot==='主力').length,s=parseInt(r.size,10);
       return `<div class="rc"><h3>${esc(r.game)}</h3><p>📅 ${esc(r.date)} ${esc(r.time)}　👤 團長 ${esc(r.leader)}</p>
-      <p>已報名 <b>${g.length}</b> 人｜主力 ${m}/${s}｜替補 ${g.filter(x=>x.slot==='替補').length}</p>
+      <p>已報名 <b>${g.length}</b> 人｜出團 ${m}/${s}｜替補 ${g.filter(x=>x.slot==='替補').length}</p>
       <p>${ROLES.map(k=>`<span class="pill">${k} ${c[k]||0}</span>`).join('')}</p>${r.note?`<p class="note">📌 ${esc(r.note)}</p>`:''}
       <div class="acts"><button class="btn" data-a="pick" data-id="${r.id}">我要報名</button><button class="btn" style="background:#8a9ba8" data-a="view" data-id="${r.id}">查看名單</button></div></div>`}).join('')||'<div class="card note">目前沒有開放報名的團，請等待團長開團。</div>';
     return}
@@ -214,10 +217,10 @@ function render(){
     const pend=g.filter(x=>!x.slot).sort((a,b)=>a.ts.localeCompare(b.ts));
     const rc=cnt(g,'role'),cc=cnt(g,'cls');
     el.innerHTML=`<div class="card"><h2>${esc(rl(r))}　<span class="pill">${SL[r.status]}</span></h2>${r.note?`<p class="note">📌 ${esc(r.note)}</p>`:''}
-    <div class="kpis">${[['有效報名',g.length],['主力',`${main.length}/${s}`],['替補',sub.length],['待分配',pend.length]].map(k=>`<div class="kpi"><b>${k[1]}</b><span>${k[0]}</span></div>`).join('')}</div>
+    <div class="kpis">${[['有效報名',g.length],['出團人員',`${main.length}/${s}`],['替補',sub.length],['待分配',pend.length]].map(k=>`<div class="kpi"><b>${k[1]}</b><span>${k[0]}</span></div>`).join('')}</div>
     <h2 style="margin-top:16px">定位占比</h2><div id="rb"></div><h2 style="margin-top:12px">職業占比</h2><div id="cb"></div></div>`+
-    (swapOut?`<div class="bn">🔁 抽換中：請在「替補／待分配」點「換上主力」（<button class="ab" data-a="sc">取消抽換</button>）</div>`:'')+
-    `<div class="card h-main"><h2>🛡️ 主力名單　${main.length}/${s}</h2>${rosterTable(main,'main',r)}</div>`+
+    (swapOut?`<div class="bn">🔁 抽換中：請在「替補／待分配」點「換上出團」（<button class="ab" data-a="sc">取消抽換</button>）</div>`:'')+
+    `<div class="card h-main"><h2>🛡️ 出團人員　${main.length}/${s}</h2>${rosterTable(main,'main',r)}</div>`+
     `<div class="card h-sub"><h2>🔄 替補名單　${sub.length} 人</h2>${rosterTable(sub,'sub',r)}</div>`+
     `<div class="card h-pend"><h2>📥 已報名・待團長分配　${pend.length} 人</h2>${rosterTable(pend,'pend',r)}</div>`;
     bars($('rb'),ROLES.map(k=>[k,rc[k]||0]),g.length,k=>ROLEC[k]);
