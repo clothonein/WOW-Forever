@@ -2,52 +2,65 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
+<!--
+ ╔══════════════════════════════════════════════════════╗
+ ║  ★★★ 設定區：整份檔案只需要改下面「一行」 ★★★         ║
+ ║  把 Google Apps Script 網址（結尾是 /exec）            ║
+ ║  貼在下面那一行的雙引號 "" 中間即可                    ║
+ ╚══════════════════════════════════════════════════════╝
+-->
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbwVxTr4QHZasYc7tAcwnoNRQ0Pyq0sV8JF8rQfRKKzodzS190OlbQaTWgcU-_QDxWc94g/exec";   // ←← 在這裡貼上網址，例如 "https://script.google.com/macros/s/xxxx/exec"
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WoW 永恆版 團本報名系統</title>
 <style>
-:root{--bg:#f4f5f7;--card:#fff;--tx:#1f2430;--mu:#6b7280;--bd:#e2e5ea;--pri:#1f3864}
-@media(prefers-color-scheme:dark){:root{--bg:#14161b;--card:#1e222a;--tx:#e8eaee;--mu:#9aa1ad;--bd:#303541;--pri:#5b86d6}}
+:root{--bg:#f7f4ee;--card:#fffdf9;--tx:#403d38;--mu:#8a8478;--bd:#e8e1d3;--pri:#7a9cc0;--priD:#5f84aa}
+@media(prefers-color-scheme:dark){:root{--bg:#23262b;--card:#2c3036;--tx:#ece8e0;--mu:#a8a398;--bd:#40454c;--pri:#6f93b8;--priD:#5a7fa3}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 "Microsoft JhengHei","PingFang TC",sans-serif}
-header{background:#1f3864;color:#fff;padding:18px 16px;text-align:center}
-header h1{margin:0;font-size:20px}header p{margin:4px 0 0;font-size:13px;opacity:.85}
-main{max-width:980px;margin:0 auto;padding:14px}
-nav{display:flex;gap:8px;margin-bottom:14px}
-nav button{flex:1;padding:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:8px;cursor:pointer;font:inherit}
-nav button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:14px}
-.card h2{margin:0 0 12px;font-size:16px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-label{display:block;font-size:13px;color:var(--mu);margin-bottom:4px}
-input,select,textarea{width:100%;padding:9px;border:1px solid var(--bd);border-radius:6px;background:var(--bg);color:var(--tx);font:inherit}
-button.go{margin-top:14px;width:100%;padding:12px;border:0;border-radius:8px;background:var(--pri);color:#fff;font:inherit;font-weight:700;cursor:pointer}
-button.go:disabled{opacity:.5}
-.msg{margin-top:10px;padding:9px;border-radius:6px;display:none}
-.msg.ok{display:block;background:#d9ead3;color:#274e13}.msg.er{display:block;background:#f4cccc;color:#990000}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
-.kpi{background:var(--bg);border-radius:8px;padding:10px;text-align:center}
-.kpi b{display:block;font-size:24px}.kpi span{font-size:12px;color:var(--mu)}
-.bar{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:14px}
-.bar .n{width:76px;flex:none}.bar .t{flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden}
-.bar .t i{display:block;height:100%;border-radius:4px}.bar .v{width:92px;flex:none;text-align:right;font-size:13px;color:var(--mu)}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:7px 6px;border-bottom:1px solid var(--bd);text-align:center;white-space:nowrap}
+body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.6 "Microsoft JhengHei","PingFang TC",sans-serif}
+header{background:var(--pri);color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+header h1{margin:0;font-size:22px}header button{background:#ffffff30;color:#fff;border:1px solid #ffffff80;border-radius:8px;padding:8px 16px;cursor:pointer;font:inherit}
+main{max-width:1080px;margin:0 auto;padding:16px}
+nav{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+nav button{flex:1;min-width:100px;padding:11px;font-size:16px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:8px;cursor:pointer;font:inherit}
+nav button.on{background:var(--pri);color:#fff;border-color:var(--pri);font-weight:700}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-bottom:14px}
+.card h2{margin:0 0 12px;font-size:19px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+label{display:block;font-size:15px;color:var(--mu);margin-bottom:3px}
+input,select{width:100%;padding:10px;font-size:16px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit}
+.btn{padding:13px;border:0;border-radius:10px;background:var(--priD);color:#fff;font:inherit;font-size:17px;font-weight:700;cursor:pointer}
+.btn.red{background:#c9776e}.btn:disabled{opacity:.5}
+.row2{display:flex;gap:10px;margin-top:12px}.row2 .btn{flex:1}
+.msg{margin-top:12px;padding:11px;border-radius:8px;display:none}
+.msg.ok{display:block;background:#e3f0dc;color:#3d6b34}.msg.er{display:block;background:#f8e1de;color:#a1453d}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.kpi{background:var(--bg);border-radius:8px;padding:8px;text-align:center}.kpi b{display:block;font-size:26px}.kpi span{font-size:14px;color:var(--mu)}
+.bar{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:16px}.bar .n{width:84px;flex:none}
+.bar .t{flex:1;height:22px;background:var(--bg);border-radius:4px;overflow:hidden}.bar .t i{display:block;height:100%}.bar .v{width:110px;flex:none;text-align:right;font-size:15px;color:var(--mu)}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{padding:9px 7px;border-bottom:1px solid var(--bd);text-align:center;white-space:nowrap}
 th{color:var(--mu);font-weight:600}.sc{overflow-x:auto}
-.tag{display:inline-block;padding:1px 8px;border-radius:10px;font-weight:700;font-size:12px}
-.note{font-size:12px;color:var(--mu)}
+.tag{display:inline-block;padding:2px 10px;border-radius:12px;font-weight:700;font-size:14px}
+.note{font-size:14px;color:var(--mu)}.ab{padding:4px 10px;margin:2px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:7px;cursor:pointer;font-size:14px}
+.ab.g{background:#6fa77b;color:#fff;border-color:#6fa77b}.ab.r{background:#c9776e;color:#fff;border-color:#c9776e}
+.bn{background:#fdf1d6;color:#7a5f1c;padding:11px;border-radius:8px;margin-bottom:12px;font-size:15px}
+.h-main{border-left:6px solid #8bbd96}.h-sub{border-left:6px solid #e6c07b}.h-pend{border-left:6px solid #c4bdb0}
 </style>
 </head>
 <body>
-<header><h1>⚔️ 我思故我在 你思湖水怪｜團本報名系統</h1><p>報名資料儲存於 Google 試算表，依開團日期統計出場人員配置</p></header>
+<header><h1>⚔️ 我思故我在 你思湖水怪｜團本報名系統</h1><button id="lb" onclick="leaderBtn()">🔑 團長登入</button></header>
 <main>
-<nav><button id="b1" class="on" onclick="tab(1)">📝 報名</button><button id="b2" onclick="tab(2)">📊 配置分析</button><button id="b3" onclick="tab(3)">📋 報名紀錄</button></nav>
+<div class="bn" id="warn" hidden>尚未設定 API_URL，請編輯 index.html 填入 Google Apps Script 網址。</div>
+<nav><button id="b1" class="on" onclick="tab(1)">📝 報名</button><button id="b2" onclick="tab(2)">👥 團隊名單</button><button id="b3" onclick="tab(3)">📊 配置分析</button><button id="b4" onclick="tab(4)">🗂️ 操作紀錄</button></nav>
 
 <section id="p1">
-<div class="card"><h2>填寫報名</h2>
+<div class="card"><h2>報名 / 修改 / 取消</h2>
 <div class="grid">
 <div><label>開團日期</label><input type="date" id="date"></div>
 <div><label>副本</label><select id="raid"></select></div>
-<div><label>角色名稱（ID）</label><input id="name" maxlength="20" placeholder="請輸入遊戲角色名稱"></div>
+<div><label>角色名稱（ID）</label><input id="name" maxlength="20"></div>
+<div><label>修改/取消密碼（至少 4 碼，自己記好）</label><input id="pin" type="password" maxlength="30"></div>
 <div><label>職業</label><select id="cls"></select></div>
 <div><label>主天賦</label><select id="t1"></select></div>
 <div><label>副天賦</label><select id="t2"></select></div>
@@ -55,34 +68,29 @@ th{color:var(--mu);font-weight:600}.sc{overflow-x:auto}
 <div><label>出席狀態</label><select id="att"></select></div>
 <div><label>藥水 / Buff 準備</label><select id="buff"></select></div>
 </div>
-<div style="margin-top:12px"><label>備註（抗性或特殊需求）</label><input id="note" maxlength="100"></div>
-<button class="go" id="send" onclick="submitForm()">送出報名</button>
+<div style="margin-top:10px"><label>備註（取消報名時可填原因）</label><input id="note" maxlength="100"></div>
+<div class="row2"><button class="btn" id="send" onclick="submitForm()">送出報名 / 更新</button><button class="btn red" id="cancel" onclick="cancelMine()">取消我的報名</button></div>
 <div class="msg" id="msg"></div>
-<p class="note">同一開團日期、同一副本、同一角色名稱再次送出，會更新原本的報名資料。</p>
+<p class="note">同日期、同副本、同角色再次送出＝更新（需原密碼）。取消後資料不會消失，會保留在操作紀錄中。</p>
 </div></section>
 
-<section id="p2" hidden>
-<div class="card"><div class="grid">
+<div id="fbar" class="card" hidden><div class="grid">
 <div><label>開團日期</label><select id="fd" onchange="render()"></select></div>
 <div><label>副本</label><select id="fr" onchange="render()"></select></div>
-<div><label>計入人員</label><select id="fa" onchange="render()">
-<option value="c">確定出席</option><option value="cp" selected>確定出席＋待確認</option><option value="all">全部報名（含候補、請假）</option></select></div>
+<div id="fsw"><label>計入人員（分析用）</label><select id="fa" onchange="render()"><option value="m">團隊主力名單</option><option value="cp" selected>確定出席＋待確認</option><option value="all">全部有效報名</option></select></div>
 </div></div>
+
+<section id="p2" hidden><div id="roster"></div></section>
+<section id="p3" hidden>
 <div class="card"><h2>報名概況</h2><div class="kpis" id="kpi"></div></div>
 <div class="card"><h2>定位占比</h2><div id="roles"></div></div>
 <div class="card"><h2>職業占比</h2><div id="classes"></div></div>
-<div class="card"><h2>各開團日期統計（依所選副本、計入人員）</h2><div class="sc"><table id="bydate"></table></div></div>
+<div class="card"><h2>各開團日期統計</h2><div class="sc"><table id="bydate"></table></div></div>
 </section>
-
-<section id="p3" hidden>
-<div class="card"><h2>報名紀錄（依報名時間，新到舊）</h2><div class="sc"><table id="log"></table></div></div>
-</section>
+<section id="p4" hidden><div class="card"><h2>操作紀錄（新到舊，含刪除與名單調整）</h2><div class="sc"><table id="log"></table></div></div></section>
 </main>
 
 <script>
-// ★ 部署 Apps Script 後，把網頁應用程式網址貼在這裡（留空＝示範模式，資料只存在本機瀏覽器）
-const API_URL = "https://script.google.com/macros/s/AKfycbwVxTr4QHZasYc7tAcwnoNRQ0Pyq0sV8JF8rQfRKKzodzS190OlbQaTWgcU-_QDxWc94g/exec";
-
 const TAL={'戰士':[['武器','近戰輸出'],['狂怒','近戰輸出'],['防護','坦克']],'聖騎士':[['神聖','治療'],['防護','坦克'],['懲戒','近戰輸出']],
 '獵人':[['野獸控制','遠程輸出'],['射擊','遠程輸出'],['生存','遠程輸出']],'盜賊':[['刺殺','近戰輸出'],['戰鬥','近戰輸出'],['敏銳','近戰輸出']],
 '牧師':[['戒律','治療'],['神聖','治療'],['暗影','遠程輸出']],'薩滿':[['元素','遠程輸出'],['增強','近戰輸出'],['恢復','治療']],
@@ -90,90 +98,108 @@ const TAL={'戰士':[['武器','近戰輸出'],['狂怒','近戰輸出'],['防�
 '德魯伊':[['平衡','遠程輸出'],['野性-熊','坦克'],['野性-貓','近戰輸出'],['恢復','治療']]};
 const COL={'戰士':['#C79C6E','#000'],'聖騎士':['#F58CBA','#000'],'獵人':['#ABD473','#000'],'盜賊':['#FFF569','#000'],'牧師':['#E6E6E6','#000'],
 '薩滿':['#0070DE','#fff'],'法師':['#69CCF0','#000'],'術士':['#9482C9','#000'],'德魯伊':['#FF7D0A','#000']};
-const ROLES=['坦克','治療','近戰輸出','遠程輸出'],ROLEC={'坦克':'#6a8fd8','治療':'#6fbf73','近戰輸出':'#e0a43c','遠程輸出':'#b07ad8'};
+const ROLES=['坦克','治療','近戰輸出','遠程輸出'],ROLEC={'坦克':'#8fa9d6','治療':'#8fc79a','近戰輸出':'#e6bf7a','遠程輸出':'#b9a0d6'};
 const ATT=['確定出席','待確認','候補支援','請假'],BUFF=['全滿(藥水+世界Buff)','自備基本藥水','未準備'];
 const RAIDS={'奧尼克希亞_40人':40,'海加爾山_20人':20,'地深獸穴_10人':10};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const opts=(el,a)=>el.innerHTML=a.map(x=>`<option>${esc(x)}</option>`).join('');
-let DATA=[];
+let DATA=[],LOG=[],LP=sessionStorage.getItem('lp')||'',swapOut=null,cur=1;
 
 function init(){
+  if(!API_URL)$('warn').hidden=false;
   opts($('raid'),Object.keys(RAIDS));opts($('cls'),Object.keys(TAL));opts($('role'),ROLES);opts($('att'),ATT);opts($('buff'),BUFF);
   const d=new Date();$('date').value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-  $('cls').onchange=()=>{fillT1();$('t1').onchange()};
-  $('t1').onchange=()=>{fillT2();autoRole()};
-  $('t2').onchange=()=>{};
-  fillT1();$('t1').onchange();load();
+  $('cls').onchange=()=>{opts($('t1'),TAL[$('cls').value].map(t=>t[0]));$('t1').onchange()};
+  $('t1').onchange=()=>{const t1=$('t1').value;opts($('t2'),TAL[$('cls').value].map(t=>t[0]).filter(t=>t!==t1));
+    const m=TAL[$('cls').value].find(t=>t[0]===t1);if(m)$('role').value=m[1]};
+  $('cls').onchange();lbl();load();
+  document.body.addEventListener('click',onAct);
 }
-function fillT1(){opts($('t1'),TAL[$('cls').value].map(t=>t[0]))}
-function fillT2(){const t1=$('t1').value,l=TAL[$('cls').value].map(t=>t[0]).filter(t=>t!==t1);opts($('t2'),l)}
-function autoRole(){const m=TAL[$('cls').value].find(t=>t[0]===$('t1').value);if(m)$('role').value=m[1]}
-function tab(n){[1,2,3].forEach(i=>{$('p'+i).hidden=i!==n;$('b'+i).className=i===n?'on':''});if(n>1)render()}
-
+function tab(n){cur=n;[1,2,3,4].forEach(i=>{$('p'+i).hidden=i!==n;$('b'+i).className=i===n?'on':''});
+  $('fbar').hidden=!(n===2||n===3);$('fsw').hidden=n!==3;render()}
+function lbl(){$('lb').textContent=LP?'👑 團長模式（登出）':'🔑 團長登入'}
+async function api(b){
+  if(!API_URL)throw new Error('尚未設定 API_URL');
+  const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...b,lp:LP})});
+  const j=await r.json();if(!j.ok)throw new Error(j.error||'操作失敗');return j}
+async function leaderBtn(){
+  if(LP){LP='';sessionStorage.removeItem('lp');swapOut=null;lbl();render();return}
+  const p=prompt('請輸入團長密碼');if(!p)return;LP=p;
+  try{await api({act:'login'});sessionStorage.setItem('lp',p);lbl();tab(2)}catch(e){LP='';alert(e.message)}}
 async function load(){
-  try{
-    if(API_URL){const r=await fetch(API_URL);const j=await r.json();DATA=j.rows||[]}
-    else DATA=JSON.parse(localStorage.getItem('wow_demo')||'[]');
-  }catch(e){DATA=[]}
-  buildFilters();render();
-}
-async function submitForm(){
-  const m=$('msg');m.className='msg';
-  const d={date:$('date').value,raid:$('raid').value,name:$('name').value.trim(),cls:$('cls').value,t1:$('t1').value,t2:$('t2').value,
-    role:$('role').value,att:$('att').value,buff:$('buff').value,note:$('note').value.trim()};
-  if(!d.name||!d.date){m.className='msg er';m.textContent='請填寫開團日期與角色名稱';return}
-  $('send').disabled=true;
-  try{
-    if(API_URL){
-      const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
-      const j=await r.json();if(!j.ok)throw new Error(j.error);
-      m.textContent=j.updated?'✅ 已更新你的報名資料':'✅ 報名成功！';
-    }else{
-      const ts=new Date().toLocaleString('sv-SE');const row={ts,...d};
-      const i=DATA.findIndex(x=>x.date===d.date&&x.raid===d.raid&&x.name===d.name);
-      i>=0?DATA[i]=row:DATA.push(row);localStorage.setItem('wow_demo',JSON.stringify(DATA));
-      m.textContent='✅ 已儲存（示範模式：資料只在此瀏覽器）';
-    }
-    m.className='msg ok';await load();
-  }catch(e){m.className='msg er';m.textContent='送出失敗：'+e.message}
-  $('send').disabled=false;
-}
-
-function buildFilters(){
-  const dates=[...new Set(DATA.map(x=>x.date))].sort().reverse();
-  const keepD=$('fd').value,keepR=$('fr').value;
+  try{if(API_URL){const j=await(await fetch(API_URL)).json();DATA=j.rows||[];LOG=(j.log||[]).reverse()}}catch(e){}
+  const dates=[...new Set(DATA.map(x=>x.date))].sort().reverse(),kd=$('fd').value,kr=$('fr').value;
   opts($('fd'),['全部日期',...dates]);opts($('fr'),['全部副本',...Object.keys(RAIDS)]);
-  if(dates.includes(keepD)||keepD==='全部日期')$('fd').value=keepD;else if(dates.length)$('fd').value=dates[0];
-  if(keepR)$('fr').value=keepR;
-}
-const inScope=(x,m)=>m==='all'||(m==='c'?x.att==='確定出席':['確定出席','待確認'].includes(x.att));
-function bars(el,items,total,colorOf){
-  el.innerHTML=items.map(([k,n])=>{const p=total?Math.round(n*1000/total)/10:0;const c=colorOf(k);
-    return `<div class="bar"><span class="n">${esc(k)}</span><span class="t"><i style="width:${p}%;background:${c}"></i></span><span class="v">${n} 人（${p}%）</span></div>`}).join('')||'<p class="note">尚無資料</p>';
-}
+  $('fd').value=(kd&&(dates.includes(kd)||kd==='全部日期'))?kd:(dates[0]||'全部日期');
+  $('fr').value=kr&&kr!=='全部副本'?kr:Object.keys(RAIDS)[0];render()}
+function flash(t,ok){const m=$('msg');m.className='msg '+(ok?'ok':'er');m.textContent=t}
+function formData(){return{date:$('date').value,raid:$('raid').value,name:$('name').value.trim(),pin:$('pin').value,cls:$('cls').value,
+  t1:$('t1').value,t2:$('t2').value,role:$('role').value,att:$('att').value,buff:$('buff').value,note:$('note').value.trim()}}
+async function submitForm(){
+  const d=formData();if(!d.name||!d.date){flash('請填寫開團日期與角色名稱',0);return}
+  $('send').disabled=true;
+  try{const j=await api({act:'signup',...d});flash(j.updated?'✅ 已更新報名資料':'✅ 報名成功！',1);await load()}catch(e){flash('失敗：'+e.message,0)}
+  $('send').disabled=false}
+async function cancelMine(){
+  const d=formData();if(!d.name||!d.date){flash('請填寫開團日期、副本、角色名稱與密碼',0);return}
+  if(!confirm(`確定取消「${d.name}」在 ${d.date} ${d.raid} 的報名？（紀錄會保留）`))return;
+  try{await api({act:'remove',date:d.date,raid:d.raid,name:d.name,pin:d.pin,reason:d.note});flash('✅ 已取消報名，紀錄已保留',1);await load()}catch(e){flash('失敗：'+e.message,0)}}
+
+async function onAct(ev){
+  const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=b.dataset.id;
+  try{
+    if(a==='so'){swapOut=id;render();return}
+    if(a==='sc'){swapOut=null;render();return}
+    if(a==='swap'){await api({act:'swap',outId:swapOut,inId:id,outTo:'替補'});swapOut=null}
+    else if(a==='slot')await api({act:'slot',id,slot:b.dataset.v});
+    else if(a==='del'){const r=prompt('刪除原因（可留空）');if(r===null)return;await api({act:'remove',id,reason:r})}
+    await load()}catch(e){alert(e.message)}}
+
+const inScope=(x,m)=>m==='all'||(m==='m'?x.slot==='主力':m==='c'?x.att==='確定出席':['確定出席','待確認'].includes(x.att));
+const tag=x=>{const c=COL[x.cls]||['#ccc','#000'];return `<span class="tag" style="background:${c[0]};color:${c[1]}">${esc(x.cls)}</span>`};
+function rosterTable(list,kind){
+  const L=!!LP;
+  const btn=(a,id,t,cls,v)=>`<button class="ab ${cls||''}" data-a="${a}" data-id="${id}"${v!==undefined?` data-v="${v}"`:''}>${t}</button>`;
+  const acts=x=>{if(!L)return'';let s='';
+    if(kind==='main')s=btn('so',x.id,'抽換')+btn('slot',x.id,'→替補','','替補')+btn('slot',x.id,'移出','','');
+    else{if(swapOut)s=btn('swap',x.id,'換上主力','g');else s=btn('slot',x.id,'↑上主力','g','主力');
+      s+=kind==='sub'?btn('slot',x.id,'移出','',''):btn('slot',x.id,'→替補','','替補')}
+    return s+btn('del',x.id,'刪除','r')};
+  return `<div class="sc"><table><tr><th>#</th><th>角色</th><th>職業</th><th>天賦</th><th>定位</th><th>出席</th><th>Buff</th><th>報名時間</th><th>備註</th>${L?'<th>團長操作</th>':''}</tr>`+
+  (list.map((x,i)=>`<tr${swapOut===x.id?' style="background:#fdf1d6;color:#403d38"':''}><td>${i+1}</td><td><b>${esc(x.name)}</b></td><td>${tag(x)}</td><td>${esc(x.t1)}／${esc(x.t2)}</td><td>${esc(x.role)}</td><td>${esc(x.att)}</td><td>${esc(x.buff)}</td><td>${esc(x.ts)}</td><td>${esc(x.note)}</td>${L?`<td>${acts(x)}</td>`:''}</tr>`).join('')||`<tr><td colspan="10" class="note">尚無人員</td></tr>`)+'</table></div>'}
+function bars(el,items,total,cf){el.innerHTML=items.map(([k,n])=>{const p=total?Math.round(n*1000/total)/10:0;
+  return `<div class="bar"><span class="n">${esc(k)}</span><span class="t"><i style="width:${p}%;background:${cf(k)}"></i></span><span class="v">${n} 人（${p}%）</span></div>`}).join('')}
 function render(){
-  const fd=$('fd').value,fr=$('fr').value,fa=$('fa').value;
-  const base=DATA.filter(x=>(fd==='全部日期'||x.date===fd)&&(fr==='全部副本'||x.raid===fr));
-  const rows=base.filter(x=>inScope(x,fa));
-  const size=fr==='全部副本'?null:RAIDS[fr];
-  $('kpi').innerHTML=[['報名總數',base.length],['計入人數',rows.length],['確定出席',base.filter(x=>x.att==='確定出席').length],
-    ['候補／請假',base.filter(x=>x.att==='候補支援'||x.att==='請假').length],['團隊進度',size?`${rows.length}/${size}`:'—']]
-    .map(k=>`<div class="kpi"><b>${k[1]}</b><span>${k[0]}</span></div>`).join('');
-  const cnt=(arr,key)=>arr.reduce((o,x)=>(o[x[key]]=(o[x[key]]||0)+1,o),{});
-  const rc=cnt(rows,'role'),cc=cnt(rows,'cls');
-  bars($('roles'),ROLES.map(r=>[r,rc[r]||0]),rows.length,k=>ROLEC[k]);
-  bars($('classes'),Object.keys(TAL).map(c=>[c,cc[c]||0]).sort((a,b)=>b[1]-a[1]),rows.length,k=>COL[k][0]);
-  const dates=[...new Set(DATA.filter(x=>fr==='全部副本'||x.raid===fr).map(x=>x.date))].sort().reverse();
-  $('bydate').innerHTML='<tr><th>開團日期</th><th>計入人數</th>'+ROLES.map(r=>`<th>${r}</th>`).join('')+'<th>占比（坦/治/近/遠）</th></tr>'+
-    dates.map(d=>{const a=DATA.filter(x=>x.date===d&&(fr==='全部副本'||x.raid===fr)&&inScope(x,fa));const c=cnt(a,'role');
-      const pc=ROLES.map(r=>a.length?Math.round((c[r]||0)*100/a.length)+'%':'—').join(' / ');
-      return `<tr><td>${esc(d)}</td><td>${a.length}</td>${ROLES.map(r=>`<td>${c[r]||0}</td>`).join('')}<td>${pc}</td></tr>`}).join('');
-  const log=[...DATA].sort((a,b)=>b.ts.localeCompare(a.ts));
-  $('log').innerHTML='<tr><th>報名時間</th><th>開團日期</th><th>副本</th><th>角色</th><th>職業</th><th>天賦</th><th>定位</th><th>出席</th><th>Buff</th><th>備註</th></tr>'+
-    log.map(x=>{const c=COL[x.cls]||['#ccc','#000'];
-      return `<tr><td>${esc(x.ts)}</td><td>${esc(x.date)}</td><td>${esc(x.raid)}</td><td>${esc(x.name)}</td><td><span class="tag" style="background:${c[0]};color:${c[1]}">${esc(x.cls)}</span></td><td>${esc(x.t1)}／${esc(x.t2)}</td><td>${esc(x.role)}</td><td>${esc(x.att)}</td><td>${esc(x.buff)}</td><td>${esc(x.note)}</td></tr>`}).join('');
-}
+  const act=DATA.filter(x=>x.status==='active'),fd=$('fd').value,fr=$('fr').value;
+  if(cur===2){
+    const el=$('roster');
+    if(fd==='全部日期'||fr==='全部副本'){el.innerHTML='<div class="card note">請在上方選擇開團日期與副本。</div>';return}
+    const g=act.filter(x=>x.date===fd&&x.raid===fr),oi=r=>ROLES.indexOf(r),size=RAIDS[fr];
+    const main=g.filter(x=>x.slot==='主力').sort((a,b)=>oi(a.role)-oi(b.role)||a.ts.localeCompare(b.ts));
+    const sub=g.filter(x=>x.slot==='替補').sort((a,b)=>a.ts.localeCompare(b.ts));
+    const pend=g.filter(x=>!x.slot).sort((a,b)=>a.ts.localeCompare(b.ts));
+    const rc=ROLES.map(r=>`${r} ${main.filter(x=>x.role===r).length}`).join('｜');
+    el.innerHTML=(swapOut?`<div class="bn">🔁 抽換中：請在「替補／待分配」點「換上主力」（<button class="ab" data-a="sc">取消抽換</button>）</div>`:'')+
+    `<div class="card h-main"><h2>🛡️ 主力名單　${main.length}/${size}　<span class="note">${rc}</span></h2>${rosterTable(main,'main')}</div>`+
+    `<div class="card h-sub"><h2>🔄 替補名單　${sub.length} 人</h2>${rosterTable(sub,'sub')}</div>`+
+    `<div class="card h-pend"><h2>📥 已報名・待團長分配　${pend.length} 人</h2>${rosterTable(pend,'pend')}</div>`;
+    return}
+  if(cur===3){
+    const fa=$('fa').value;
+    const base=act.filter(x=>(fd==='全部日期'||x.date===fd)&&(fr==='全部副本'||x.raid===fr)),rows=base.filter(x=>inScope(x,fa));
+    const size=fr==='全部副本'?null:RAIDS[fr],cnt=(a,k)=>a.reduce((o,x)=>(o[x[k]]=(o[x[k]]||0)+1,o),{});
+    $('kpi').innerHTML=[['有效報名',base.length],['計入人數',rows.length],['主力',base.filter(x=>x.slot==='主力').length],['替補',base.filter(x=>x.slot==='替補').length],['進度',size?`${rows.length}/${size}`:'—']].map(k=>`<div class="kpi"><b>${k[1]}</b><span>${k[0]}</span></div>`).join('');
+    const rc=cnt(rows,'role'),cc=cnt(rows,'cls');
+    bars($('roles'),ROLES.map(r=>[r,rc[r]||0]),rows.length,k=>ROLEC[k]);
+    bars($('classes'),Object.keys(TAL).map(c=>[c,cc[c]||0]).sort((a,b)=>b[1]-a[1]),rows.length,k=>COL[k][0]);
+    const ds=[...new Set(act.filter(x=>fr==='全部副本'||x.raid===fr).map(x=>x.date))].sort().reverse();
+    $('bydate').innerHTML='<tr><th>開團日期</th><th>計入</th>'+ROLES.map(r=>`<th>${r}</th>`).join('')+'<th>占比 坦/治/近/遠</th></tr>'+ds.map(d=>{
+      const a=act.filter(x=>x.date===d&&(fr==='全部副本'||x.raid===fr)&&inScope(x,fa)),c=cnt(a,'role');
+      return `<tr><td>${esc(d)}</td><td>${a.length}</td>${ROLES.map(r=>`<td>${c[r]||0}</td>`).join('')}<td>${ROLES.map(r=>a.length?Math.round((c[r]||0)*100/a.length)+'%':'—').join(' / ')}</td></tr>`}).join('');
+    return}
+  if(cur===4)$('log').innerHTML='<tr><th>時間</th><th>動作</th><th>副本</th><th>開團日期</th><th>角色</th><th>操作者</th><th>說明</th></tr>'+
+    LOG.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}
 init();
 </script>
 </body>
